@@ -1,0 +1,14 @@
+@startuml erd
+!include tables.pu
+skinparam Linetype ortho
+
+expenses ||--o{ items
+expenses |o--o| stores
+expenses ||--|{ expenses_payment_methods
+payment_methods ||--o{ expenses_payment_methods
+payment_methods |o--|| colors
+payment_methods |o--|| icon_images
+items |o--o| sub_categories
+sub_categories }o--|| categories
+
+@enduml

@@ -1,0 +1,21 @@
+version: '3'
+
+services: 
+  db:
+    build: ./db
+    image: mysql:5.7
+    container_name: abfm_db
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: abfm_test
+      MYSQL_USER: abfm
+      MYSQL_PASSWORD: abfm
+      TZ: 'Asia/Tokyo'
+    volumes: 
+    - ./db/data:/var/lib/mysql
+    - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./db/initdb.d:/docker-entrypoint-initdb.d
+    - ./log/mysql:/var/log/mysql
+    ports: 
+    - 3306:3306
