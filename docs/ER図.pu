@@ -1,0 +1,67 @@
+@startuml
+title "ER図"
+
+hide circle
+
+entity expenses {
+    *id : bigint <<generated>>
+    --
+    store_id : bigint, nullable
+    store_name : varchar(50), nullable
+    date : datetime
+    note : varchar(255), nullable
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity items {
+    *id : bigint <<generated>>
+    --
+    name : varchar(50)
+    price : float
+    expense_id : bigint
+    category_id : bigint
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity categories {
+    *id : bigint <<generated>>
+    --
+    name : varchar(50)
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity payments {
+    *id : bigint <<generated>>
+    --
+    name : varchar(50)
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity stores {
+    *id : bigint <<generated>>
+    --
+    name : varchar(50)
+    created_at : datetime
+    updated_at : datetime
+}
+
+entity expense_payments {
+    *id : bigint <<generated>>
+    --
+    expense_id : bigint
+    payment_id : bigint
+    created_at : datetime
+    updated_at : datetime
+}
+
+expenses ||--|{ items
+items }o--|| categories
+expenses ||--|{ expense_payments
+payments ||--o{ expense_payments
+expenses }o--o| stores
+
+@enduml
