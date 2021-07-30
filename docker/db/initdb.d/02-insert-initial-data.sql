@@ -1,3 +1,4 @@
+-- 現在のDB構成とは異なっているので使いたい場合は要修正
 INSERT INTO expenses
     (id, total_amount, store_id, store_name, purchased_at, note) 
 VALUES
