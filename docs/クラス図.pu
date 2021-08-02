@@ -1,0 +1,154 @@
+@startuml
+title クラス図
+
+entity AbfmEntity {
+    Date createdAt
+    Date updatedAt
+    --
+    @PrePersist onCreate()
+    @PreUpdate onUpdate()
+}
+
+entity Expense {
+    Long id
+    Long storeId
+    String storeName
+    Date purchasedAt
+    String note
+}
+
+entity Item {
+    Long id
+    String name
+    BigDecimal price
+    Long expenseId
+    Long categoryId
+}
+
+entity Category {
+    Long id
+    String name
+}
+
+entity Payment {
+    Long id
+    String name
+}
+
+entity Store {
+    Long id
+    String name
+}
+
+entity ExpensePayment {
+    Long id
+    BigDecimal total
+    Long expenseId
+    Long paymentId
+}
+
+AbfmEntity <|-- Expense
+AbfmEntity <|-- Item
+AbfmEntity <|-- Category
+AbfmEntity <|-- Payment
+AbfmEntity <|-- Store
+AbfmEntity <|-- ExpensePayment
+
+Expense "1" *-- "many" Item
+Expense "1" *-- "many" ExpensePayment
+
+
+class ExpenseListItem {
+    Long id
+    String storeName
+    Date purchasedAt
+    BigDecimal total
+}
+
+class ExpenseDetail {
+    Long storeId
+    String note
+    List<ItemListItem> itemList
+    List<PaymentListItem> paymentList
+}
+
+ExpenseListItem <|-- ExpenseDetail
+
+class ItemListItem {
+    Long id
+    String name
+    BigDecimal price
+    Long categoryId
+    Long expenseId
+    boolean isDeleted
+}
+
+class PaymentListItem {
+    Long id
+    BigDecimal total
+    Long expenseId
+    Long paymentId
+    boolean isDeleted
+}
+
+ExpenseDetail "1" *-- "many" ItemListItem
+ExpenseDetail "1" *-- "many" PaymentListItem
+
+class Filter {
+    Long id
+    String name
+}
+
+class TotalEachFilter {
+    BigDecimal total
+}
+
+Filter <|-- TotalEachFilter
+
+class ExpenseController {
+    --
+    List<ExpenseListItem> findAll()
+    ExpenseDetail findById(Long)
+    List<ExpenseListItem> findByPaymentId(Long)
+    List<ExpenseListItem> findByStoreId(Long)
+    List<TotalEachFilter> getTotalEachPayment()
+    List<TotalEachFilter> getTotalEachStore()
+    void create(ExpenseDetail)
+    void update(ExpenseDetail)
+    void delete(Long)
+}
+
+class ItemController {
+    --
+    List<ItemListItem> findByCategoryId(Long)
+    List<TotalEachFilter> getTotalEachCategory()
+}
+
+class CategoryController {
+    --
+    List<Filter> findAll()
+    Filter findById(Long)    
+    void create(Filter)
+    void update(Filter)
+    void delete(Long)
+}
+
+class PaymentController {
+    --
+    List<Filter> findAll()
+    Filter findById(Long)    
+    void create(Filter)
+    void update(Filter)
+    void delete(Long)
+}
+
+class StoreController {
+    --
+    List<Filter> findAll()
+    Filter findById(Long)    
+    void create(Filter)
+    void update(Filter)
+    void delete(Long)
+}
+
+@enduml

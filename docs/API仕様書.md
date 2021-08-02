@@ -10,7 +10,7 @@
 | メソッド | GET |
 | パスパラメータ | - |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Expense\>) |
+| レスポンス| 200 OK (List<ExpenseListItem\>) |
 
 ### 1.2 1件取得
 
@@ -20,47 +20,47 @@
 | メソッド | GET |
 | パスパラメータ | id: expenseId |
 | リクエストボディ | - |
-| レスポンス| 200 OK (Expense : List<Item\>付き), 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK (ExpenseDetail), 404 Not Found : {id}が存在しない |
 
 ### 1.3 新規作成
 
 |||
 | --- | --- |
-| URI | /expenses |
+| URI | /expenses/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | Expense : List<Item\>付き |
+| リクエストボディ | ExpenseDetail |
 | レスポンス| 200 OK |
 
 ### 1.4 更新
 
 |||
 | --- | --- |
-| URI | /expenses/{id} |
+| URI | /expenses/update |
 | メソッド | PUT |
-| パスパラメータ | id: expenseId |
-| リクエストボディ | Expense : List<Item\>付き |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| パスパラメータ | - |
+| リクエストボディ | ExpenseDetail |
+| レスポンス| 200 OK, 404 Not Found : 支出IDが存在しない |
 
 ### 1.5 削除
 
 |||
 | --- | --- |
-| URI | /expenses/{id} |
+| URI | /expenses/delete/{id} |
 | メソッド | DELETE |
 | パスパラメータ | id: expenseId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
 
 ### 1.6 決済方法をもとに取得
 
 |||
 | --- | --- |
-| URI | /expenses/category/{id} |
+| URI | /expenses/payment/{id} |
 | メソッド | GET |
-| パスパラメータ | id: categoryId |
+| パスパラメータ | id: paymentId |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Expense\>), 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK (List<ExpenseListItem\>) |
 
 ### 1.7 店舗をもとに取得
 
@@ -70,31 +70,31 @@
 | メソッド | GET |
 | パスパラメータ | id: storeId |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Expense\>), 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK (List<ExpenseListItem\>) |
+
+### 1.8 決済方法ごとの金額を取得
+
+|||
+| --- | --- |
+| URI | /expenses/payment/totals |
+| メソッド | GET |
+| パスパラメータ | - |
+| リクエストボディ | - |
+| レスポンス| 200 OK (List<TotalEachFilter\>) |
+
+### 1.9 店舗ごとの金額を取得
+
+|||
+| --- | --- |
+| URI | /expenses/store/totals |
+| メソッド | GET |
+| パスパラメータ | - |
+| リクエストボディ | - |
+| レスポンス| 200 OK (List<TotalEachFilter\>) |
 
 ## 2. Items
 
-### 2.1 更新
-
-|||
-| --- | --- |
-| URI | /items/{id} |
-| メソッド | PUT |
-| パスパラメータ | id: itemId |
-| リクエストボディ | Item |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
-
-### 2.2 削除
-
-|||
-| --- | --- |
-| URI | /items/{id} |
-| メソッド | DELETE |
-| パスパラメータ | id: itemId |
-| リクエストボディ | - |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
-
-### 2.3 カテゴリをもとに取得
+### 2.1 カテゴリをもとに取得
 
 |||
 | --- | --- |
@@ -102,7 +102,17 @@
 | メソッド | GET |
 | パスパラメータ | id: categoryId |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Item\>), 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK (List<ItemListItem\>) |
+
+### 2.2 カテゴリごとの金額を取得
+
+|||
+| --- | --- |
+| URI | /items/category/totals |
+| メソッド | GET |
+| パスパラメータ | - |
+| リクエストボディ | - |
+| レスポンス| 200 OK (List<TotalEachFilter\>) |
 
 ## 3. Categories
 
@@ -114,47 +124,38 @@
 | メソッド | GET |
 | パスパラメータ | - |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Category\>) |
+| レスポンス| 200 OK (List<Filter\>) |
 
-### 2.2 1件取得
-
-|||
-| --- | --- |
-| URI | /categories/{id} |
-| メソッド | GET |
-| パスパラメータ | id: categoryId |
-| リクエストボディ | - |
-| レスポンス| 200 OK (Category), 400 Bad Request : {id}が存在しない |
-
-### 3.3 新規作成
+### 3.2 新規作成
 
 |||
 | --- | --- |
-| URI | /categories |
+| URI | /categories/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | Category |
+| リクエストボディ | String |
 | レスポンス| 200 OK |
 
-### 3.4 更新
+### 3.3 更新
 
 |||
 | --- | --- |
-| URI | /categories/{id} |
+| URI | /categories/update |
 | メソッド | PUT |
-| パスパラメータ | id: categoryId |
-| リクエストボディ | Category |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| パスパラメータ | - |
+| リクエストボディ | Filter |
+| レスポンス| 200 OK, 404 Not Found : カテゴリIDが存在しない |
 
-### 3.5 削除
+### 3.4 削除
 
 |||
 | --- | --- |
-| URI | /categories/{id} |
+| URI | /categories/delete/{id} |
 | メソッド | DELETE |
 | パスパラメータ | id: categoryId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
+| 備考 | 指定したカテゴリIDを持つitemsのレコードも削除される |
 
 ## 4. Payments
 
@@ -166,47 +167,38 @@
 | メソッド | GET |
 | パスパラメータ | - |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Payment\>) |
+| レスポンス| 200 OK (List<Filter\>) |
 
-### 4.2 1件取得
-
-|||
-| --- | --- |
-| URI | /payments/{id} |
-| メソッド | GET |
-| パスパラメータ | id: paymentId |
-| リクエストボディ | - |
-| レスポンス| 200 OK (Payment), 400 Bad Request : {id}が存在しない |
-
-### 4.3 新規作成
+### 4.2 新規作成
 
 |||
 | --- | --- |
-| URI | /payments |
+| URI | /payments/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | Payment |
+| リクエストボディ | String |
 | レスポンス| 200 OK |
 
-### 4.4 更新
+### 4.3 更新
 
 |||
 | --- | --- |
-| URI | /payments/{id} |
+| URI | /payments/update |
 | メソッド | PUT |
-| パスパラメータ | id: paymentId |
-| リクエストボディ | Payment |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| パスパラメータ | - |
+| リクエストボディ | Filter |
+| レスポンス| 200 OK, 404 Not Found : 決済方法IDが存在しない |
 
-### 4.5 削除
+### 4.4 削除
 
 |||
 | --- | --- |
-| URI | /payments/{id} |
+| URI | /payments/delete/{id} |
 | メソッド | DELETE |
 | パスパラメータ | id: paymentId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
+| 備考 | 指定した決済方法IDを持つexpense_paymentsのレコードも削除される |
 
 ## 5. Stores
 
@@ -218,44 +210,35 @@
 | メソッド | GET |
 | パスパラメータ | - |
 | リクエストボディ | - |
-| レスポンス| 200 OK (List<Store\>) |
+| レスポンス| 200 OK (List<Filter\>) |
 
-### 5.2 1件取得
-
-|||
-| --- | --- |
-| URI | /stores/{id} |
-| メソッド | GET |
-| パスパラメータ | id: storeId |
-| リクエストボディ | - |
-| レスポンス| 200 OK (Store), 400 Bad Request : {id}が存在しない |
-
-### 5.3 新規作成
+### 5.2 新規作成
 
 |||
 | --- | --- |
-| URI | /stores |
+| URI | /stores/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | Store |
+| リクエストボディ | String |
 | レスポンス| 200 OK |
 
-### 5.4 更新
+### 5.3 更新
 
 |||
 | --- | --- |
-| URI | /stores/{id} |
+| URI | /stores/update |
 | メソッド | PUT |
-| パスパラメータ | id: storeId |
-| リクエストボディ | Store |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| パスパラメータ | - |
+| リクエストボディ | Filter |
+| レスポンス| 200 OK, 404 Not Found : 店舗IDが存在しない |
 
-### 5.5 削除
+### 5.4 削除
 
 |||
 | --- | --- |
-| URI | /stores/{id} |
+| URI | /stores/delete/{id} |
 | メソッド | DELETE |
 | パスパラメータ | id: storeId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 400 Bad Request : {id}が存在しない |
+| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
+| 備考 | 指定した店舗IDを持つexpensesのレコードも削除される |

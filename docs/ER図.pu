@@ -8,7 +8,7 @@ entity expenses {
     --
     store_id : bigint, nullable
     store_name : varchar(50), nullable
-    date : datetime
+    purchased_at : datetime
     note : varchar(255), nullable
     created_at : datetime
     updated_at : datetime
@@ -18,7 +18,7 @@ entity items {
     *id : bigint <<generated>>
     --
     name : varchar(50)
-    price : float
+    price : decimal(10,2)
     expense_id : bigint
     category_id : bigint
     created_at : datetime
@@ -52,6 +52,7 @@ entity stores {
 entity expense_payments {
     *id : bigint <<generated>>
     --
+    total : decimal(10,2)
     expense_id : bigint
     payment_id : bigint
     created_at : datetime
