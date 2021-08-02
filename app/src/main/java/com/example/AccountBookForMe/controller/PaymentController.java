@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.AccountBookForMe.dto.Filter;
 import com.example.AccountBookForMe.exception.AbfmNotFoundException;
-import com.example.AccountBookForMe.service.StoreService;
+import com.example.AccountBookForMe.service.PaymentService;
 
 @RestController
-@RequestMapping("/stores")
-public class StoreController {
-
-    @Autowired
-    private StoreService storeService;
+@RequestMapping("/payments")
+public class PaymentController {
+	
+	@Autowired
+	private PaymentService paymentService;
 
     /**
      * リスト表示用のデータを全件取得
@@ -28,27 +28,27 @@ public class StoreController {
      */
     @GetMapping("")
     List<Filter> findAll() {
-        return storeService.findAll();
+        return paymentService.findAll();
     }
     
     /**
      * 新規作成
-     * @param name : 店舗名
+     * @param name : 決済方法名
      */
     @PutMapping("/create")
     void create(@RequestBody String name) {
-    	storeService.create(name);
+    	paymentService.create(name);
     }
     
     /**
      * 更新
-     * @param filter : 店舗ID、店舗名
+     * @param filter : 決済方法ID、決済方法名
      */
     @PutMapping("/update")
     void update(@RequestBody Filter filter) {
     	
     	try {
-    		storeService.update(filter);
+    		paymentService.update(filter);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}
@@ -56,13 +56,13 @@ public class StoreController {
 
     /**
      * 削除
-     * @param id : 店舗ID
+     * @param id : 決済方法ID
      */
     @DeleteMapping("/delete/{id}")
     void delete(@PathVariable Long id) {
     	
     	try {
-    		storeService.delete(id);
+    		paymentService.delete(id);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}

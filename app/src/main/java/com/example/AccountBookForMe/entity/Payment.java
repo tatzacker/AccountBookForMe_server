@@ -12,8 +12,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "stores")
-public class Store extends AbfmEntity {
+@Table(name = "payments")
+public class Payment extends AbfmEntity {
 
     @Id
     @GeneratedValue
@@ -25,14 +25,14 @@ public class Store extends AbfmEntity {
     /**
      * コンストラクタ（引数なし）
      */
-    public Store() {    	
+    public Payment() {    	
     }
-    
+
     /**
      * コンストラクタ
      * @param name
      */
-    public Store(String name) {
+    public Payment(String name) {
     	this.setName(name);
     }
 }

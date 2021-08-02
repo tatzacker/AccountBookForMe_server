@@ -1,113 +1,125 @@
 package com.example.AccountBookForMe.controller;
 
-import com.example.AccountBookForMe.entity.Expense;
-import com.example.AccountBookForMe.entity.ExpenseDetail;
-import com.example.AccountBookForMe.entity.PaymentListItem;
-import com.example.AccountBookForMe.service.ExpensePaymentMethodService;
-import com.example.AccountBookForMe.service.ExpenseService;
-import com.example.AccountBookForMe.service.StoreService;
-import javassist.NotFoundException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.AccountBookForMe.dto.ExpenseDetail;
+import com.example.AccountBookForMe.dto.ExpenseListItem;
+import com.example.AccountBookForMe.dto.TotalEachFilter;
+import com.example.AccountBookForMe.exception.AbfmNotFoundException;
+import com.example.AccountBookForMe.service.ExpenseService;
 
 @RestController
-@RequestMapping("/api/v1/expenses")
+@RequestMapping("/expenses")
 public class ExpenseController {
 
     @Autowired
     private ExpenseService expenseService;
 
-    @Autowired
-    private ExpensePaymentMethodService expensePaymentMethodService;
-
-    @Autowired
-    private StoreService storeService;
-
+    /**
+     * リスト表示用のデータを全件取得
+     * @return リスト表示用のデータ
+     */
     @GetMapping("")
-    List<Expense> findAll() {
+    List<ExpenseListItem> findAll() {
         return expenseService.findAll();
     }
 
+    /**
+     * 支出IDをもとに詳細表示用のデータを取得
+     * @param id : 支出ID
+     * @return 詳細表示用のデータ
+     */
     @GetMapping("/{id}")
     ExpenseDetail findById(@PathVariable Long id) {
 
-        ExpenseDetail expenseDetail = new ExpenseDetail();
-        try {
-            Expense expense = expenseService.findById(id);
-
-            if (expense.getStoreName() == null) {
-                // 店舗をリストから選択していた場合、storeIdから名前を取得してセットする
-                expense.setStoreName(storeService.getNameById(expense.getStoreId()));
-            }
-
-            List<PaymentListItem> paymentList = expensePaymentMethodService.getByExpenseId(id);
-
-            expenseDetail.setExpense(expense);
-            expenseDetail.setPaymentMethods(paymentList);
-
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return expenseDetail;
+    	try {
+            return expenseService.findById(id);    		
+    	} catch (AbfmNotFoundException e) {
+    		throw e;
+    	}
     }
 
     /**
      * 支出の新規作成
      * @param expenseDetail
-     * @return
      */
-    @PostMapping("")
-    Expense save(@RequestBody ExpenseDetail expenseDetail) {
-
-        Expense e = expenseService.save(expenseDetail.getExpense());
-
-        // 関連するexpenses_payment_methodsも新規作成する
-        expensePaymentMethodService.create(expenseDetail);
-
-        return e;
+    @PutMapping("/create")
+    void create(@RequestBody ExpenseDetail expenseDetail) {
+    	expenseService.create(expenseDetail);
     }
 
     /**
      * 支出の更新
-     * @param id
      * @param expenseDetail
-     * @return
      */
-    @PutMapping("/{id}")
-    Expense update(@PathVariable Long id, @RequestBody ExpenseDetail expenseDetail) {
+    @PutMapping("/update")
+    void update(@RequestBody ExpenseDetail expenseDetail) {
 
-        Expense expense = expenseDetail.getExpense();
-        expense.setId(id);
-        Expense e = expenseService.update(expense);
-
-        // 関連するexpenses_payment_methodsも更新する
-        expensePaymentMethodService.update(expenseDetail);
-
-        return e;
+		try {
+			expenseService.update(expenseDetail);
+		} catch (AbfmNotFoundException e) {
+			throw e;
+		}
     }
 
     /**
      * 支出の削除
      * @param id
      */
-    @DeleteMapping("/{id}")
-    Long delete(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    void delete(@PathVariable Long id) {
 
-        expenseService.delete(id);
+    	try {
+            expenseService.delete(id);
+    	} catch (AbfmNotFoundException e) {
+    		throw e;
+    	}
+    }
 
-        // 関連するexpenses_payment_methodsも削除する
-        expensePaymentMethodService.delete(id);
+    /**
+     * 決済方法IDに基づいて、リスト表示用のデータを全件取得
+     * @param id : 決済方法ID
+     * @return リスト表示用のデータ
+     */
+    @GetMapping("/payment/{id}")
+    List<ExpenseListItem> findByPaymentId(@PathVariable Long id) {
+    	return expenseService.findByPaymentId(id);
+    }
 
-        return id;
+    /**
+     * 店舗IDに基づいて、リスト表示用のデータを全件取得
+     * @param id : 店舗ID
+     * @return リスト表示用のデータ
+     */
+    @GetMapping("/store/{id}")
+    List<ExpenseListItem> findByStoreId(@PathVariable Long id) {
+    	return expenseService.findByStoreId(id);
+    }
+    
+    /**
+     * 決済方法ごとの合計金額を返す
+     * @return リスト表示用のデータ
+     */
+    @GetMapping("/payment/totals")
+    List<TotalEachFilter> getTotalEachPayment() {
+    	return expenseService.getTotalEachPayment();
+    }
+    
+    /**
+     * 店舗ごとの合計金額を返す
+     * @return リスト表示用のデータ
+     */
+    @GetMapping("/store/totals")
+    List<TotalEachFilter> getTotalEachStore() {
+    	return expenseService.getTotalEachStore();
     }
 }

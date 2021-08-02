@@ -20,7 +20,7 @@ databaseChangeLog:
                   name: store_name
                   type: varchar(50)
               - column:
-                  name: date
+                  name: purchased_at
                   type: datetime
                   constraints:
                     - nullable: false
@@ -50,6 +50,11 @@ databaseChangeLog:
               - column:
                   name: name
                   type: varchar(50)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: price
+                  type: decimal(10,2)
                   constraints:
                     - nullable: false
               - column:
@@ -158,8 +163,8 @@ databaseChangeLog:
                     - nullable: false
                     - primaryKey: true
               - column:
-                  name: name
-                  type: varchar(50)
+                  name: total
+                  type: decimal(10,2)
                   constraints:
                     - nullable: false
               - column:
