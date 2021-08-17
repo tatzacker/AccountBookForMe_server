@@ -2,6 +2,8 @@ package com.example.AccountBookForMe.repository;
 
 import com.example.AccountBookForMe.entity.ExpensePayment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +13,12 @@ public interface ExpensePaymentRepository extends JpaRepository<ExpensePayment, 
 
     List<ExpensePayment> findByExpenseId(Long expenseId);
     
-    List<ExpensePayment> findByPaymentId(Long paymentId);
+    @Query(value = "SELECT ep.* FROM expense_payments ep"
+    		+ "	LEFT JOIN expenses"
+    		+ "	ON ep.expense_id = expenses.id"
+    		+ "	WHERE payment_id = :paymentId"
+    		+ "	ORDER BY expenses.purchased_at DESC", nativeQuery = true)
+    List<ExpensePayment> findByPaymentIdOrderByPurchasedAtDesc(@Param("paymentId") Long paymentId);
     
     void deleteByExpenseId(Long expenseId);
     

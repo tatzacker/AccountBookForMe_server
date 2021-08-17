@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.AccountBookForMe.dto.ItemListItem;
@@ -30,7 +31,7 @@ public class ItemService {
 		
 		List<ItemListItem> itemList = new ArrayList<>();
 
-		itemRepository.findByExpenseId(expenseId).forEach(item -> {
+		itemRepository.findByExpenseIdOrderByPurchasedAtDesc(expenseId).forEach(item -> {
 			itemList.add(new ItemListItem(item));
 		});
 		
@@ -47,7 +48,7 @@ public class ItemService {
 
 		List<ItemListItem> itemList = new ArrayList<>();
 		
-		itemRepository.findByCategoryId(categoryId).forEach(item -> {
+		itemRepository.findByCategoryIdOrderByPurchasedAtDesc(categoryId).forEach(item -> {
 			itemList.add(new ItemListItem(item));
 		});
 
@@ -65,7 +66,7 @@ public class ItemService {
     	
     	categoryRepository.findAll().forEach(category -> {
     		
-			BigDecimal total = itemRepository.findByCategoryId(category.getId()).stream()
+			BigDecimal total = itemRepository.findByCategoryIdOrderByPurchasedAtDesc(category.getId()).stream()
 					.map(item -> item.getPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
     		totalList.add(new TotalEachFilter(category.getId(), category.getName(), total));
     	});

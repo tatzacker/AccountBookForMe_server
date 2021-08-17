@@ -53,7 +53,7 @@ public class ExpenseService {
 
 		List<ExpenseListItem> expenseList = new ArrayList<>();
 
-		expenseRepository.findAll().forEach(expense -> {
+		expenseRepository.findAllByOrderByPurchasedAtDesc().forEach(expense -> {
 
 			String storeName = expense.getStoreName() == null
 					? storeRepository.findById(expense.getStoreId()).get().getName()
@@ -241,7 +241,7 @@ public class ExpenseService {
 
 		List<ExpenseListItem> expenseList = new ArrayList<>();
 		
-		epRepository.findByPaymentId(paymentId).forEach(ep -> {
+		epRepository.findByPaymentIdOrderByPurchasedAtDesc(paymentId).forEach(ep -> {
 
 			Expense expense = expenseRepository.findById(ep.getExpenseId()).get();
 			String storeName = expense.getStoreName() == null
@@ -263,7 +263,7 @@ public class ExpenseService {
 
 		List<ExpenseListItem> expenseList = new ArrayList<>();
 		
-		expenseRepository.findByStoreId(storeId).forEach(expense -> {
+		expenseRepository.findByStoreIdOrderByPurchasedAtDesc(storeId).forEach(expense -> {
 
 			String storeName = expense.getStoreName() == null
 					? storeRepository.findById(expense.getStoreId()).get().getName()
@@ -287,7 +287,7 @@ public class ExpenseService {
     	
     	paymentRepository.findAll().forEach(payment -> {
     		
-			BigDecimal total = epRepository.findByPaymentId(payment.getId()).stream().map(ep -> ep.getTotal())
+			BigDecimal total = epRepository.findByPaymentIdOrderByPurchasedAtDesc(payment.getId()).stream().map(ep -> ep.getTotal())
 					.reduce(BigDecimal.ZERO, BigDecimal::add);
     		totalList.add(new TotalEachFilter(payment.getId(), payment.getName(), total));
     	});
@@ -306,7 +306,7 @@ public class ExpenseService {
     	
     	// 登録済みじゃない店舗の合計金額（storeIdは0Lとしておく）
     	// TODO: 0Lと"その他"は定数化する
-		BigDecimal totalOfOthers = expenseRepository.findByNotRegisteredStores().stream()
+		BigDecimal totalOfOthers = expenseRepository.findByNotRegisteredStoresOrderByPurchasedAtDesc().stream()
 				.map(expense -> calcTotal(expense.getId())).reduce(BigDecimal.ZERO, BigDecimal::add);
 		totalList.add(new TotalEachFilter(0L, "その他", totalOfOthers));
     	
