@@ -70,6 +70,8 @@ class ExpenseDetail {
     String note
     List<ItemListItem> itemList
     List<PaymentListItem> paymentList
+    List<Long> deletedItemList
+    List<Long> deletedPaymentList
 }
 
 ExpenseListItem <|-- ExpenseDetail

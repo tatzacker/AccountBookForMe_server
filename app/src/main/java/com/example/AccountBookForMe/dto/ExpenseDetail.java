@@ -1,5 +1,6 @@
 package com.example.AccountBookForMe.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -16,5 +17,9 @@ public class ExpenseDetail extends ExpenseListItem {
     private List<ItemListItem> itemList;
 	
     private List<PaymentListItem> paymentList;
+    
+    private List<Long> deletedItemList = new ArrayList<Long>();
+
+    private List<Long> deletedPaymentList = new ArrayList<Long>();
 
 }

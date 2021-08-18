@@ -131,14 +131,12 @@ public class ExpenseService {
 		edit(expense, expenseDetail);
 		expenseRepository.save(expense);
 		
+		// 削除済みリストにある品物を削除
+		expenseDetail.getDeletedItemList().forEach(deletedItem -> {
+			itemRepository.deleteById(deletedItem);
+		});
+		
 		expenseDetail.getItemList().forEach(ili -> {
-			
-			if (ili.isDeleted()) {
-				// isDeletedがtrueなら削除する
-				itemRepository.deleteById(ili.getId());
-
-				return;
-			}
 			
 			if (ili.getId() == null) {
 				// アイテムIDがなければ新規作成して終わり
@@ -164,14 +162,12 @@ public class ExpenseService {
 			itemRepository.save(item);
 		});
 		
+		// 削除済みリストにある支払いを削除
+		expenseDetail.getDeletedPaymentList().forEach(deletedPayment -> {
+			epRepository.deleteById(deletedPayment);
+		});
+		
 		expenseDetail.getPaymentList().forEach(pli -> {
-			
-			if (pli.isDeleted()) {
-				// isDeletedがtrueなら削除する
-				epRepository.deleteById(pli.getId());
-
-				return;
-			}
 			
 			if (pli.getId() == null) {
 				// ExpensePaymentIDがなければ新規作成して終わり

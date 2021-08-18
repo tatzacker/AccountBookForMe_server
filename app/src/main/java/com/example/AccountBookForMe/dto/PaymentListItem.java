@@ -16,8 +16,6 @@ public class PaymentListItem {
     private Long expenseId = null;
     
     private Long paymentId = null;
-    
-    private boolean isDeleted = false;
 
     /**
      * コンストラクタ（引数なし）
