@@ -259,16 +259,33 @@ public class ExpenseService {
 
 		List<ExpenseListItem> expenseList = new ArrayList<>();
 		
-		expenseRepository.findByStoreIdOrderByPurchasedAtDesc(storeId).forEach(expense -> {
+		if (storeId == 0) {
+			// storeIdが0なら手入力した店舗の支出を取得する
+			
+			expenseRepository.findByNotRegisteredStoresOrderByPurchasedAtDesc().forEach(expense -> {
 
-			String storeName = expense.getStoreName() == null
-					? storeRepository.findById(expense.getStoreId()).get().getName()
-					: expense.getStoreName();
+				String storeName = expense.getStoreName() == null
+						? storeRepository.findById(expense.getStoreId()).get().getName()
+						: expense.getStoreName();
 
-			expenseList.add(new ExpenseListItem(expense.getId(), storeName, expense.getPurchasedAt(),
-					calcTotal(expense.getId())));
-		});
+				expenseList.add(new ExpenseListItem(expense.getId(), storeName, expense.getPurchasedAt(),
+						calcTotal(expense.getId())));
+			});
 
+		} else {
+			// それ以外なら指定した店舗IDをもつ支出を取得する
+
+			expenseRepository.findByStoreIdOrderByPurchasedAtDesc(storeId).forEach(expense -> {
+
+				String storeName = expense.getStoreName() == null
+						? storeRepository.findById(expense.getStoreId()).get().getName()
+						: expense.getStoreName();
+
+				expenseList.add(new ExpenseListItem(expense.getId(), storeName, expense.getPurchasedAt(),
+						calcTotal(expense.getId())));
+			});
+		}
+		
 		return expenseList;
     }
 
@@ -298,14 +315,7 @@ public class ExpenseService {
     public List<TotalEachFilter> getTotalEachStore() {
     	
     	// 返却用のリスト生成
-    	List<TotalEachFilter> totalList = new ArrayList<>();
-    	
-    	// 登録済みじゃない店舗の合計金額（storeIdは0Lとしておく）
-    	// TODO: 0Lと"その他"は定数化する
-		BigDecimal totalOfOthers = expenseRepository.findByNotRegisteredStoresOrderByPurchasedAtDesc().stream()
-				.map(expense -> calcTotal(expense.getId())).reduce(BigDecimal.ZERO, BigDecimal::add);
-		totalList.add(new TotalEachFilter(0L, "その他", totalOfOthers));
-    	
+    	List<TotalEachFilter> totalList = new ArrayList<>();    	
     	
     	// 登録済み店舗ごとの合計金額
     	storeRepository.findAll().forEach(store -> {
@@ -314,6 +324,12 @@ public class ExpenseService {
 					.map(expense -> calcTotal(expense.getId())).reduce(BigDecimal.ZERO, BigDecimal::add);
     		totalList.add(new TotalEachFilter(store.getId(), store.getName(), total));
     	});
+    	
+    	// 登録済みじゃない店舗の合計金額（storeIdは0Lとしておく）
+    	// TODO: 0Lと"その他"は定数化する
+		BigDecimal totalOfOthers = expenseRepository.findByNotRegisteredStoresOrderByPurchasedAtDesc().stream()
+				.map(expense -> calcTotal(expense.getId())).reduce(BigDecimal.ZERO, BigDecimal::add);
+		totalList.add(new TotalEachFilter(0L, "その他", totalOfOthers));
     	
     	return totalList;
     }
