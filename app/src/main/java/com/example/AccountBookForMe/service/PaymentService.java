@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.AccountBookForMe.dto.Filter;
+import com.example.AccountBookForMe.dto.Name;
 import com.example.AccountBookForMe.entity.Payment;
 import com.example.AccountBookForMe.exception.AbfmNotFoundException;
 import com.example.AccountBookForMe.repository.ExpensePaymentRepository;
@@ -40,37 +41,44 @@ public class PaymentService {
     /**
      * 新規作成
      * @param name : 決済方法名
+     * @return リスト表示用のデータ
      */
-    public void create(String name) {
-    	paymentRepository.save(new Payment(name));
+    public List<Filter> create(Name name) {
+    	paymentRepository.save(new Payment(name.getName()));
+    	return findAll();
     }
     
     /**
      * 更新
      * @param filter : 決済方法ID、決済方法名
+     * @return リスト表示用のデータ
      */
     @Transactional
-    public void update(Filter filter) {
+    public List<Filter> update(Filter filter) {
     	
 		Payment payment = paymentRepository.findById(filter.getId())
 				.orElseThrow(() -> new AbfmNotFoundException("Not found payment id: " + filter.getId()));
 		
 		payment.setName(filter.getName());
 		paymentRepository.save(payment);
+    	return findAll();
     }
     
     /**
      * 削除
      * @param id : 決済方法ID
+     * @return リスト表示用のデータ
      */
     @Transactional
-    public void delete(Long id) {
+    public List<Filter> delete(Long id) {
     	
     	if (paymentRepository.existsById(id)) {
     		paymentRepository.deleteById(id);
 
     		// 関連するExpensePaymentも消す
     		epRepository.deleteByPaymentId(id);
+
+    		return findAll();
 
     	} else {
 			throw new AbfmNotFoundException("Not found payment id: " + id);

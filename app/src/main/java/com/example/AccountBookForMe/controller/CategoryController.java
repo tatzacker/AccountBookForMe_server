@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.AccountBookForMe.dto.Filter;
+import com.example.AccountBookForMe.dto.Name;
 import com.example.AccountBookForMe.exception.AbfmNotFoundException;
 import com.example.AccountBookForMe.service.CategoryService;
 
@@ -34,21 +35,23 @@ public class CategoryController {
     /**
      * 新規作成
      * @param name : カテゴリ名
+     * @return リスト表示用のデータ
      */
     @PutMapping("/create")
-    void create(@RequestBody String name) {
-    	categoryService.create(name);
+    List<Filter> create(@RequestBody Name name) {
+    	return categoryService.create(name);
     }
     
     /**
      * 更新
      * @param filter : カテゴリID、カテゴリ名
+     * @return リスト表示用のデータ
      */
     @PutMapping("/update")
-    void update(@RequestBody Filter filter) {
+    List<Filter> update(@RequestBody Filter filter) {
     	
     	try {
-    		categoryService.update(filter);
+    		return categoryService.update(filter);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}
@@ -57,12 +60,13 @@ public class CategoryController {
     /**
      * 削除
      * @param id : カテゴリID
+     * @return リスト表示用のデータ
      */
     @DeleteMapping("/delete/{id}")
-    void delete(@PathVariable Long id) {
+    List<Filter> delete(@PathVariable Long id) {
     	
     	try {
-    		categoryService.delete(id);
+    		return categoryService.delete(id);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}

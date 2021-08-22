@@ -133,8 +133,8 @@
 | URI | /categories/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | String |
-| レスポンス| 200 OK |
+| リクエストボディ | Name |
+| レスポンス| 200 OK (List<Filter\>) |
 
 ### 3.3 更新
 
@@ -144,7 +144,7 @@
 | メソッド | PUT |
 | パスパラメータ | - |
 | リクエストボディ | Filter |
-| レスポンス| 200 OK, 404 Not Found : カテゴリIDが存在しない |
+| レスポンス| 200 OK (List<Filter\>), 404 Not Found : カテゴリIDが存在しない |
 
 ### 3.4 削除
 
@@ -154,7 +154,7 @@
 | メソッド | DELETE |
 | パスパラメータ | id: categoryId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
+| レスポンス| 200 OK (List<Filter\>), 404 Not Found : {id}が存在しない |
 | 備考 | 指定したカテゴリIDを持つitemsのレコードも削除される |
 
 ## 4. Payments
@@ -176,8 +176,8 @@
 | URI | /payments/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | String |
-| レスポンス| 200 OK |
+| リクエストボディ | Name |
+| レスポンス| 200 OK (List<Filter\>) |
 
 ### 4.3 更新
 
@@ -187,7 +187,7 @@
 | メソッド | PUT |
 | パスパラメータ | - |
 | リクエストボディ | Filter |
-| レスポンス| 200 OK, 404 Not Found : 決済方法IDが存在しない |
+| レスポンス| 200 OK (List<Filter\>), 404 Not Found : 決済方法IDが存在しない |
 
 ### 4.4 削除
 
@@ -197,7 +197,7 @@
 | メソッド | DELETE |
 | パスパラメータ | id: paymentId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
+| レスポンス| 200 OK (List<Filter\>), 404 Not Found : {id}が存在しない |
 | 備考 | 指定した決済方法IDを持つexpense_paymentsのレコードも削除される |
 
 ## 5. Stores
@@ -219,8 +219,8 @@
 | URI | /stores/create |
 | メソッド | PUT |
 | パスパラメータ | - |
-| リクエストボディ | String |
-| レスポンス| 200 OK |
+| リクエストボディ | Name |
+| レスポンス| 200 OK (List<Filter\>) |
 
 ### 5.3 更新
 
@@ -230,7 +230,7 @@
 | メソッド | PUT |
 | パスパラメータ | - |
 | リクエストボディ | Filter |
-| レスポンス| 200 OK, 404 Not Found : 店舗IDが存在しない |
+| レスポンス| 200 OK (List<Filter\>), 404 Not Found : 店舗IDが存在しない |
 
 ### 5.4 削除
 
@@ -240,5 +240,5 @@
 | メソッド | DELETE |
 | パスパラメータ | id: storeId |
 | リクエストボディ | - |
-| レスポンス| 200 OK, 404 Not Found : {id}が存在しない |
+| レスポンス| 200 OK (List<Filter\>), 404 Not Found : {id}が存在しない |
 | 備考 | 指定した店舗IDを持つexpensesのレコードも削除される |

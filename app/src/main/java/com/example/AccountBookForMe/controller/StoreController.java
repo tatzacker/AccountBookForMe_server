@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.AccountBookForMe.dto.Filter;
+import com.example.AccountBookForMe.dto.Name;
 import com.example.AccountBookForMe.exception.AbfmNotFoundException;
 import com.example.AccountBookForMe.service.StoreService;
 
@@ -34,21 +35,23 @@ public class StoreController {
     /**
      * 新規作成
      * @param name : 店舗名
+     * @return リスト表示用のデータ
      */
     @PutMapping("/create")
-    void create(@RequestBody String name) {
-    	storeService.create(name);
+    List<Filter> create(@RequestBody Name name) {
+    	return storeService.create(name);
     }
     
     /**
      * 更新
      * @param filter : 店舗ID、店舗名
+     * @return リスト表示用のデータ
      */
     @PutMapping("/update")
-    void update(@RequestBody Filter filter) {
+    List<Filter> update(@RequestBody Filter filter) {
     	
     	try {
-    		storeService.update(filter);
+    		return storeService.update(filter);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}
@@ -57,12 +60,13 @@ public class StoreController {
     /**
      * 削除
      * @param id : 店舗ID
+     * @return リスト表示用のデータ
      */
     @DeleteMapping("/delete/{id}")
-    void delete(@PathVariable Long id) {
+    List<Filter> delete(@PathVariable Long id) {
     	
     	try {
-    		storeService.delete(id);
+    		return storeService.delete(id);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}

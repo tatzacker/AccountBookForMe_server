@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.AccountBookForMe.dto.Filter;
+import com.example.AccountBookForMe.dto.Name;
 import com.example.AccountBookForMe.entity.Category;
 import com.example.AccountBookForMe.exception.AbfmNotFoundException;
 import com.example.AccountBookForMe.repository.CategoryRepository;
@@ -40,37 +41,44 @@ public class CategoryService {
     /**
      * 新規作成
      * @param name : カテゴリ名
+     * @return リスト表示用のデータ
      */
-    public void create(String name) {
-    	categoryRepository.save(new Category(name));
+    public List<Filter> create(Name name) {
+    	categoryRepository.save(new Category(name.getName()));
+    	return findAll();
     }
     
     /**
      * 更新
      * @param filter : カテゴリID、カテゴリ名
+     * @return リスト表示用のデータ
      */
     @Transactional
-    public void update(Filter filter) {
+    public List<Filter> update(Filter filter) {
     	
 		Category category = categoryRepository.findById(filter.getId())
 				.orElseThrow(() -> new AbfmNotFoundException("Not found category id: " + filter.getId()));
 		
 		category.setName(filter.getName());
 		categoryRepository.save(category);
+    	return findAll();
     }
     
     /**
      * 削除
      * @param id : カテゴリID
+     * @return リスト表示用のデータ
      */
     @Transactional
-    public void delete(Long id) {
+    public List<Filter> delete(Long id) {
     	
     	if (categoryRepository.existsById(id)) {
     		categoryRepository.deleteById(id);
     		
     		// 関連するItemも消す
     		itemRepository.deleteByCategoryId(id);
+
+    		return findAll();
 
     	} else {
 			throw new AbfmNotFoundException("Not found category id: " + id);
