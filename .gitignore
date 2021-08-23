@@ -26,6 +26,7 @@ hs_err_pid*
 /docker/db/data/*
 /docker/db/log/*
 /docker/dumps/*
+/docker/db/initdb.d/*
 
 HELP.md
 .gradle
