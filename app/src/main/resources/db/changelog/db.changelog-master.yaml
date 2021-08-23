@@ -1,0 +1,189 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Tate
+      changes:
+        - createTable:
+            tableName: expenses
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - nullable: false
+                    - primaryKey: true
+              - column:
+                  name: store_id
+                  type: bigint
+              - column:
+                  name: store_name
+                  type: varchar(50)
+              - column:
+                  name: purchased_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: note
+                  type: varchar(255)
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: items
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - nullable: false
+                    - primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: price
+                  type: decimal(10,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: expense_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - nullable: false
+                    - primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: stores
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - nullable: false
+                    - primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - nullable: false
+                    - primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: expense_payments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    - nullable: false
+                    - primaryKey: true
+              - column:
+                  name: total
+                  type: decimal(10,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: expense_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: payment_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    - nullable: false

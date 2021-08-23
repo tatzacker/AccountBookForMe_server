@@ -1,38 +1,39 @@
 package com.example.AccountBookForMe.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "expenses")
-public class Expense {
+public class Expense extends AbfmEntity {
 
     @Id
     @GeneratedValue
-    Long id;
-
-    @Column(name = "total_amount")
-    Float totalAmount = 0F;
+    private Long id;
 
     @Column(name = "store_id")
-    Long storeId = null;
+    private Long storeId = null;
 
-    @Column(name = "store_name")
-    String storeName = null;
+    @Column(name = "store_name", length = 50)
+    private String storeName = null;
 
     @Column(name = "purchased_at")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    LocalDate purchasedAt = null;
+    private LocalDateTime purchasedAt = null;
 
-    @Column(name = "note", length = 140)
-    String note = null;
-
+    @Column(name = "note", length = 255)
+    private String note = null;
+    
 }

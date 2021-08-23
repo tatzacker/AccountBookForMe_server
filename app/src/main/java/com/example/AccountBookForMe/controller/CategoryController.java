@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.AccountBookForMe.dto.Filter;
 import com.example.AccountBookForMe.dto.Name;
 import com.example.AccountBookForMe.exception.AbfmNotFoundException;
-import com.example.AccountBookForMe.service.StoreService;
+import com.example.AccountBookForMe.service.CategoryService;
 
 @RestController
-@RequestMapping("/stores")
-public class StoreController {
-
-    @Autowired
-    private StoreService storeService;
+@RequestMapping("/categories")
+public class CategoryController {
+	
+	@Autowired
+	private CategoryService categoryService;
 
     /**
      * リスト表示用のデータを全件取得
@@ -29,29 +29,29 @@ public class StoreController {
      */
     @GetMapping("")
     List<Filter> findAll() {
-        return storeService.findAll();
+        return categoryService.findAll();
     }
     
     /**
      * 新規作成
-     * @param name : 店舗名
+     * @param name : カテゴリ名
      * @return リスト表示用のデータ
      */
     @PutMapping("/create")
     List<Filter> create(@RequestBody Name name) {
-    	return storeService.create(name);
+    	return categoryService.create(name);
     }
     
     /**
      * 更新
-     * @param filter : 店舗ID、店舗名
+     * @param filter : カテゴリID、カテゴリ名
      * @return リスト表示用のデータ
      */
     @PutMapping("/update")
     List<Filter> update(@RequestBody Filter filter) {
     	
     	try {
-    		return storeService.update(filter);
+    		return categoryService.update(filter);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}
@@ -59,14 +59,14 @@ public class StoreController {
 
     /**
      * 削除
-     * @param id : 店舗ID
+     * @param id : カテゴリID
      * @return リスト表示用のデータ
      */
     @DeleteMapping("/delete/{id}")
     List<Filter> delete(@PathVariable Long id) {
     	
     	try {
-    		return storeService.delete(id);
+    		return categoryService.delete(id);
 		} catch (AbfmNotFoundException e) {
 			throw e;
 		}
