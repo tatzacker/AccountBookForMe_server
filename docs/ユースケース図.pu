@@ -1,0 +1,58 @@
+@startuml
+title ユースケース図
+left to right direction
+
+actor User
+
+package アプリ {
+    package 支出 {
+        usecase "支出一覧を確認する" as uc_expenses
+        usecase "支出を登録する" as uc_add
+        usecase "決済方法を設定する" as uc_set_payments
+        usecase "品物を登録する" as uc_add_items
+        usecase "カテゴリを登録する" as uc_set_category
+        usecase "店舗を設定する" as uc_set_store
+        usecase "支出詳細を確認/編集/削除する" as uc_edit
+    }
+
+    package カテゴリ {
+        usecase "カテゴリ別の支出を確認する" as uc_categories
+        usecase "カテゴリを追加する" as uc_add_category
+        usecase "カテゴリを確認/編集/削除する" as uc_edit_category
+    }
+
+    package 決済方法 {
+        usecase "決済方法別の支出を確認する" as uc_payments
+        usecase "決済方法を追加する" as uc_add_payment
+        usecase "決済方法を確認/編集/削除する" as uc_edit_payment
+    }
+
+    package 店舗 {
+        usecase "よく行く店舗別の支出を確認する" as uc_stores
+        usecase "よく行く店舗を追加する" as uc_add_store
+        usecase "よく行く店舗を確認/編集/削除する" as uc_edit_store
+    }
+}
+
+User --> uc_add
+User --> uc_expenses
+uc_add .down.> uc_set_payments : include
+uc_add .down.> uc_add_items : include
+uc_add_items .down.> uc_set_category : include
+uc_add .down.> uc_set_store : include
+User --> uc_edit
+uc_edit .down.> uc_set_payments : include
+uc_edit .down.> uc_add_items : include
+uc_edit .down.> uc_set_store : include
+
+User --> uc_categories
+User --> uc_add_category
+User --> uc_edit_category
+User --> uc_payments
+User --> uc_add_payment
+User --> uc_edit_payment
+User --> uc_stores
+User --> uc_add_store
+User --> uc_edit_store
+
+@enduml

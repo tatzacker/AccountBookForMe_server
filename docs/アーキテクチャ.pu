@@ -1,0 +1,37 @@
+@startuml
+title アーキテクチャ
+left to right direction
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v10.0/dist
+!includeurl AWSPuml/AWSCommon.puml
+!includeurl AWSPuml/Storage/SimpleStorageService.puml
+!includeurl AWSPuml/ApplicationIntegration/APIGateway.puml
+!includeurl AWSPuml/Compute/Lambda.puml
+!includeurl AWSPuml/Database/RDS.puml
+
+frame Android {
+    card "Kotlin"
+}
+
+frame AWS {
+    frame Server {
+        SimpleStorageService(Artifacts, "Artifacts", "jar")
+        card jar [
+            Java
+            ----
+            Spring boot
+        ]
+    }
+    APIGateway(API, "API", "")
+    Lambda(CRUD, "CRUD", "")
+    RDS(DB, "DB", "MySQL")
+}
+
+Kotlin --> API : Request
+API --> Kotlin : Response
+
+API --> CRUD
+CRUD --> Server
+Server --> DB
+
+@enduml
