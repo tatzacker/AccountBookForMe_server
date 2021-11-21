@@ -3,7 +3,7 @@
 ## What?
 
 家計簿アプリ「My money」のAPI担当
-アプリの詳細は[Androidのリポジトリ](https://github.com/tyty96/AccountBookForMe_android)にて
+アプリの詳細は[Androidのリポジトリ](https://github.com/taloniana/AccountBookForMe_android)にて
 
 ## Contains
 
@@ -47,7 +47,7 @@
 1. ローカルにクローン
 
    ```zsh
-   git clone https://github.com/tyty96/AccountBookForMe_server.git
+   git clone https://github.com/taloniana/AccountBookForMe_server.git
    ```
 
 2. Eclipseに「既存のGradleプロジェクト」としてインポート
