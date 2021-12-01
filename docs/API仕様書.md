@@ -242,3 +242,15 @@
 | リクエストボディ | - |
 | レスポンス| 200 OK (List<Filter\>), 404 Not Found : {id}が存在しない |
 | 備考 | 指定した店舗IDを持つexpensesのレコードも削除される |
+
+## 6. Account
+
+### 6.1 1件取得
+
+|||
+| --- | --- |
+| URI | {AWS BaseUrl}/users/{id} |
+| メソッド | GET |
+| パスパラメータ | id: userId |
+| リクエストボディ | - |
+| レスポンス| 200 OK (Account), 500 : 内部エラー |

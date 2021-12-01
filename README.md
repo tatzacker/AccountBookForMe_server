@@ -7,11 +7,12 @@
 
 ## Contains
 
-|- app: APIサーバー本体
-|- docker: DB
-|- docs: ドキュメント（API仕様書、設計書）
-|- .gitignore
-|- README: Here
+|- app: APIサーバー本体  
+|- aws: AWS構成管理  
+|- docker: DB  
+|- docs: ドキュメント（API仕様書、設計書）  
+|- .gitignore  
+|- README: Here  
 
 ## Branches
 
@@ -26,6 +27,10 @@
 ### 1.1
 
 * 一通りの機能が搭載された初の完成版
+
+### 1.2
+
+* AWS構成追加
 
 ## How?
 
