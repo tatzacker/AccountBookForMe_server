@@ -3,15 +3,20 @@
 ## What?
 
 家計簿アプリ「My money」のAPI担当
-アプリの詳細は[Androidのリポジトリ](https://github.com/taloniana/AccountBookForMe_android)にて
+アプリの詳細は[Androidのリポジトリ](https://github.com/avitim/AccountBookForMe_android)にて
 
 ## Contains
 
-|- app: APIサーバー本体
-|- docker: DB
-|- docs: ドキュメント（API仕様書、設計書）
-|- .gitignore
-|- README: Here
+|- app: APIサーバー本体  
+|- aws: AWS構成管理  
+|- docker: DB  
+|- docs: ドキュメント（API仕様書、設計書）  
+|- .gitignore  
+|- README: Here  
+
+## AWS Configration
+
+![AWS構成図](docs/aws.svg)
 
 ## Branches
 
@@ -26,6 +31,10 @@
 ### 1.1
 
 * 一通りの機能が搭載された初の完成版
+
+### 1.2
+
+* AWS構成追加
 
 ## How?
 
@@ -47,7 +56,7 @@
 1. ローカルにクローン
 
    ```zsh
-   git clone https://github.com/taloniana/AccountBookForMe_server.git
+   git clone https://github.com/avitim/AccountBookForMe_server.git
    ```
 
 2. Eclipseに「既存のGradleプロジェクト」としてインポート
