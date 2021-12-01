@@ -14,6 +14,10 @@
 |- .gitignore  
 |- README: Here  
 
+## AWS Configration
+
+![AWS構成図](docs/aws.svg)
+
 ## Branches
 
 ### 1.0
